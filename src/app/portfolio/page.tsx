@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
@@ -23,6 +23,8 @@ type DriveFolder = {
   files: DriveFile[];
   subfolders?: DriveSubfolder[];
 };
+
+
 
 function ArtworkImage({
   image,
@@ -125,7 +127,7 @@ function FeaturedArtworkImage({
   );
 }
 
-export default function PortfolioPage() {
+function PortfolioContent() {
 
   const [folders, setFolders] = useState<DriveFolder[]>([]);
 const [touchStart, setTouchStart] = useState(0);
@@ -694,5 +696,12 @@ onTouchMove={(e) => {
         )}
       </AnimatePresence>
     </main>
+  );}
+  
+export default function PortfolioPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PortfolioContent />
+    </Suspense>
   );
 }
