@@ -56,7 +56,7 @@ export default function AboutPage() {
 
   return (
     <main className="bg-[#f3f3f3] min-h-screen">
-      <section className="max-w-7xl mx-auto px-6 pt-10 pb-24">     
+      <section className="max-w-7xl mx-auto px-6 pt-10git push -u origin main pb-24">     
 <div className="grid lg:grid-cols-[1fr_420px] gap-16 items-center">
   <motion.div
     initial={{ opacity: 0 }}
