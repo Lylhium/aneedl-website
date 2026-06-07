@@ -77,7 +77,7 @@ export default function AboutPage() {
     <div className="space-y-6 text-lg text-neutral-700 leading-relaxed">
       <p>i'm a fine arts graduate, who also enjoys designing characters from time to time C-:</p>
       <p>mixed media collage has been a huge interest of mine lately! i love experimenting with textured layers and using every colour in the rainbow for my illustrations!</p>
-      <p>i go by an33dle & 💣 in most online spaces, but you can also call me anzii!
+      <p>i go by an33dl & 💣 in most online spaces, but you can also call me anzii!
         i'm always on the hunt for creative projects, so if my work piques your interest,
         my email is always open!</p>
     </div>

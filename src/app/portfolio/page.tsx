@@ -23,7 +23,6 @@ type DriveFolder = {
   files: DriveFile[];
   subfolders?: DriveSubfolder[];
 };
-
 function ArtworkImage({
   image,
   onClick,
@@ -31,70 +30,59 @@ function ArtworkImage({
   image: DriveFile;
   onClick: () => void;
 }) {
-  const [loaded, setLoaded] = useState(false);
-
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.6,
-        ease: 'easeOut',
-      }}
-      className="
-        mb-6
-        break-inside-avoid
-        cursor-pointer
-      "
-      onClick={onClick}
-    >
-      <div className="relative overflow-hidden">
-        {!loaded && !image.mimeType.includes('video') && (
-          <div
-            className="
-              absolute
-              inset-0
-              bg-neutral-200
-              animate-pulse
-            "
-          />
-        )}
-
-       {image.mimeType.includes('video') ? (
-            <iframe
-              src={`https://drive.google.com/file/d/${image.id}/preview`}
-              className="
-                w-full
-                aspect-video
-                rounded-sm
-                border-0
-              "
-              allow="autoplay"
-            />
-          ) : (
+   <motion.div
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{
+    duration: 0.6,
+    ease: 'easeOut',
+  }}
+  className="
+    cursor-pointer
+    mb-4
+    break-inside-avoid
+  "
+  onClick={onClick}
+>
+    <div className="relative overflow-hidden">
+  {image.mimeType.includes('video') ? (
+   <div
+  className="
+    w-full
+    h-auto
+    bg-white
+    rounded-sm
+    overflow-hidden
+    p-4
+  "
+>
+  <iframe
+    src={`https://drive.google.com/file/d/${image.id}/preview`}
+    className="
+      w-full
+      h-full
+      border-0
+    "
+    allow="autoplay"
+  />
+</div>
+  ) : (
           <Image
-            src={`https://drive.google.com/thumbnail?id=${image.id}&sz=w2000`}
-            alt={image.name}
-            width={1200}
-            height={1200}
-            unoptimized
-            onLoad={() => setLoaded(true)}
-            className={`
-              w-full
-              h-auto
-              rounded-sm
-              transition-all
-              duration-700
-              ease-out
-              hover:scale-[1.01]
-
-              ${
-                loaded
-                  ? 'opacity-100 scale-100'
-                  : 'opacity-0 scale-[1.03]'
-              }
-            `}
-          />
+  src={`https://drive.google.com/thumbnail?id=${image.id}&sz=w2000`}
+  alt={image.name}
+  width={1200}
+  height={1200}
+  unoptimized
+  className="
+    w-full
+    h-auto
+    rounded-sm
+    transition-transform
+    duration-300
+    hover:scale-[1.01]
+  "
+/>
         )}
       </div>
     </motion.div>
@@ -108,29 +96,29 @@ function FeaturedArtworkImage({
   image: DriveFile;
   onClick: () => void;
 }) {
-  const [loaded, setLoaded] = useState(false);
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: 'easeOut' }}
+      transition={{
+        duration: 0.7,
+        ease: 'easeOut',
+      }}
       className="cursor-pointer"
       onClick={onClick}
     >
-      <div className="max-w-[1300px] mx-auto ">
-        {!loaded && (
-          <div className="aspect-[16/9] bg-neutral-200 animate-pulse" />
-        )}
-
+      <div className="max-w-[1300px] mx-auto">
         <Image
           src={`https://drive.google.com/thumbnail?id=${image.id}&sz=w3000`}
           alt={image.name}
           width={3000}
           height={2000}
           unoptimized
-          onLoad={() => setLoaded(true)}
-          className={`w-full h-auto rounded-sm transition-all duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+          className="
+            w-full
+            h-auto
+            rounded-sm
+          "
         />
       </div>
     </motion.div>
@@ -259,6 +247,13 @@ file.mimeType.includes('video')) || [];
       ?.files.filter((file) => file.mimeType.includes('image') ||
 file.mimeType.includes('video')) || [];
 
+const sortByNumber = (files: DriveFile[]) =>
+  [...files].sort((a, b) => {
+    const numA = parseInt(a.name.match(/^\d+/)?.[0] || '9999');
+    const numB = parseInt(b.name.match(/^\d+/)?.[0] || '9999');
+    return numA - numB;
+  });
+
  let images: DriveFile[] = [];
 
 if (currentFolder) {
@@ -274,8 +269,10 @@ if (currentFolder) {
       );
 
     images =
-      selectedSubfolder?.files.filter((file: DriveFile) =>
-        file.mimeType.includes('image')
+      selectedSubfolder?.files.filter(
+        (file: DriveFile) =>
+          file.mimeType.includes('image') ||
+          file.mimeType.includes('video')
       ) || [];
   } else if (activeCategory === 'character design') {
     const mainImages =
@@ -307,10 +304,10 @@ if (currentFolder) {
         ) || [];
 
     images = [
-      ...bugSnacks,
-      ...mainImages,
-      ...sirenCall,
-    ];
+  ...sortByNumber(bugSnacks),
+  ...sortByNumber(sirenCall),
+  ...sortByNumber(mainImages),
+];
   } else {
 images =
   currentFolder.files
@@ -394,7 +391,7 @@ characterFilter === 'all' ? (
     </h2>
 
     <div className="flex flex-col gap-16">
-      {bugImages.map((image, index) => (
+      {sortByNumber(bugImages).map((image, index) => (
         <FeaturedArtworkImage
           key={image.id}
           image={image}
@@ -407,40 +404,55 @@ characterFilter === 'all' ? (
     <h2 className="text-3xl font-black  mt-24 mb-8 text-center">
       Siren Call (2023)
     </h2>
+ <div className="columns-1 md:columns-2 xl:columns-3 gap-6">
+     {sortByNumber(sirenImages).map((image, index) => {
+  const isLastSingle =
+    sortByNumber(sirenImages).length % 3 === 1 &&
+    index === sortByNumber(sirenImages).length - 1;
 
-    <div className="columns-1 md:columns-2 xl:columns-3 gap-6">
-      {sirenImages.map((image, index) => (
-        <ArtworkImage
-          key={image.id}
-          image={image}
-          onClick={() =>
-            setSelectedIndex(
-              bugImages.length +
-              mainImages.length +
-              index
-            )
-          }
-        />
-      ))}
+  return (
+    <div
+      key={image.id}
+      className={isLastSingle ? "xl:col-start-2" : ""}
+    >
+      <ArtworkImage
+        image={image}
+        onClick={() =>
+          setSelectedIndex(
+            bugImages.length +
+            index
+          )
+        }
+      />
+    </div>
+  );
+})}
     </div>
 
-    <h2 className="text-3xl font-black mt-24 mb-8 text-center">
-      miscellaneous
-    </h2>
+   <h2 className="text-3xl font-black mt-24 mb-8 text-center">
+  miscellaneous
+</h2>
 
-    <div className="columns-1 md:columns-2 xl:columns-3 gap-6">
-      {mainImages.map((image, index) => (
-        <ArtworkImage
-          key={image.id}
-          image={image}
-          onClick={() =>
-            setSelectedIndex(
-              bugImages.length + index
-            )
-          }
-        />
-      ))}
+<div className="columns-1 md:columns-2 xl:columns-3 gap-6">
+  {sortByNumber(mainImages).map((image, index) => (
+    <div
+      key={image.id}
+      className="mb-6 break-inside-avoid"
+    >
+      <ArtworkImage
+        image={image}
+        onClick={() =>
+          setSelectedIndex(
+            bugImages.length +
+            sirenImages.length +
+            index
+          )
+        }
+      />
     </div>
+  ))}
+</div>
+
   </>
 ) : (
   <AnimatePresence mode="wait">
@@ -450,19 +462,31 @@ characterFilter === 'all' ? (
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.35 }}
-      className={
-      activeCategory === 'fine arts'
+     className={
+      activeCategory === 'illustrations'
+        ? 'columns-1 md:columns-2 xl:columns-3 gap-6'
+        : activeCategory === 'fine arts'
         ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6'
         : 'columns-1 md:columns-2 xl:columns-3 gap-6'
     }
     >
- {images.map((image, index) => (
-  <ArtworkImage
-    key={image.id}
-    image={image}
-    onClick={() => setSelectedIndex(index)}
-  />
-))}
+ {images.map((image, index) => {
+  const isLastSingle =
+    images.length % 3 === 1 &&
+    index === images.length - 1;
+
+  return (
+    <div
+      key={image.id}
+      className={isLastSingle ? "xl:col-start-2" : ""}
+    >
+      <ArtworkImage
+        image={image}
+        onClick={() => setSelectedIndex(index)}
+      />
+    </div>
+  );
+})}
     </motion.div>
   </AnimatePresence>
 )}
