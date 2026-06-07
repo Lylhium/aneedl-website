@@ -56,7 +56,7 @@ export default function AboutPage() {
 
   return (
     <main className="bg-[#f3f3f3] min-h-screen">
-      <section className="max-w-7xl mx-auto px-6 pt-10git push -u origin main pb-24">     
+      <section className="max-w-7xl mx-auto px-6 pt-10 pb-24">     
 <div className="grid lg:grid-cols-[1fr_420px] gap-16 items-center">
   <motion.div
     initial={{ opacity: 0 }}
@@ -64,35 +64,25 @@ export default function AboutPage() {
   >
       <h2
       className={`
-        ${bebas.className}
-        text-4xl
-        md:text-5xl
+      font-bold
+        text-3xl
+        md:text-4xl
         tracking-wide
         mb-8
       `}
     >
-      Hi! I'm Anzenel de Leon
+      hello! i'm anzenel
     </h2>
 
     <div className="space-y-6 text-lg text-neutral-700 leading-relaxed">
-      <p>text</p>
-      <p>text2</p>
-      <p>text3</p>
+      <p>i'm a fine arts graduate, who also enjoys designing characters from time to time C-:</p>
+      <p>mixed media collage has been a huge interest of mine lately! i love experimenting with textured layers and using every colour in the rainbow for my illustrations!</p>
+      <p>i go by an33dle & 💣 in most online spaces, but you can also call me anzii!
+        i'm always on the hunt for creative projects, so if my work piques your interest,
+        my email is always open!</p>
     </div>
 
-    <div className="mt-12">
-      <h3
-      className={`
-        ${bebas.className}
-        text-4xl
-        md:text-4xl
-        tracking-wide
-        mb-4
-      `}
-    >
-      Contact Me
-    </h3>
-
+    <div className="mt-6"> 
       <a
         href="mailto:anziidlart@gmail.com"
         className="text-xl hover:opacity-60 transition"
@@ -160,14 +150,14 @@ export default function AboutPage() {
 <div className="pt-8">
               <h3
                 className={`
-                  ${bebas.className}
-                  text-4xl
-                  md:text-4xl
+                  text-3xl
+                  md:text-3xl
                   tracking-wide
+                  font-bold
                   mb-6
                 `}
               >
-                Got Inquiries?
+                got inquiries?
               </h3>
                <form
                 onSubmit={handleSubmit}

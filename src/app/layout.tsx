@@ -28,8 +28,6 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`
-          ${oswald.className}
-          ${oswald.variable}
           ${geistMono.variable}
           antialiased
         `}

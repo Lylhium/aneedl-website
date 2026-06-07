@@ -22,8 +22,9 @@ export default function NavigationBar() {
           <Link href="/">
          <h1
           className={`
-            ${bebas.className}
+            font-bold
             text-5xl
+            pt-8
             lg:text-6xl
             tracking-wide
             text-black
@@ -31,7 +32,7 @@ export default function NavigationBar() {
             transition
           `}
         >
-          Anzenel De Leon
+          ANZENEL DE LEON
         </h1>
           </Link>
 
@@ -40,12 +41,13 @@ export default function NavigationBar() {
               text-xl
               lg:text-2xl
               font-bold
-              uppercase
+              lowercase
               tracking-[0.18em]
               text-black
+              pb-5
             "
           >
-            Illustration & Character Design
+            illustration & character design
           </h2>
          
         
@@ -61,13 +63,13 @@ export default function NavigationBar() {
               href="/portfolio?category=character-design"
               className="
                 text-[18px]
-                uppercase
+             
                 tracking-[0.2em]
                 hover:text-lime-500
                 transition
               "
             >
-              Portfolio
+              portfolio
             </Link>
               <AnimatePresence>
                 {portfolioOpen && (
@@ -107,7 +109,7 @@ export default function NavigationBar() {
                           transition
                         "
                       >
-                        Character Design
+                        character design
                       </Link>
 
                       <Link
@@ -121,21 +123,7 @@ export default function NavigationBar() {
                           transition
                         "
                       >
-                        Fine Arts
-                      </Link>
-
-                      <Link
-                        href="/portfolio?category=illustrations"
-                        className="
-                          block
-                          px-5
-                          py-3
-                          text-sm
-                          hover:bg-neutral-100
-                          transition
-                        "
-                      >
-                        Illustrations
+                        fine arts
                       </Link>
                     </div>
                   </motion.div>
@@ -148,26 +136,24 @@ export default function NavigationBar() {
             href="/portfolio?category=illustrations"
             className="
               text-[18px]
-              uppercase
               tracking-[0.2em]
               hover:text-lime-500
               transition
             "
           >
-            Illustrations
+            illustrations
           </Link>
             {/* ABOUT */}
             <Link
               href="/about"
               className="
                 text-[18px]
-                uppercase
                 tracking-[0.2em]
                 hover:text-lime-500
                 transition
               "
             >
-              About
+              about
             </Link>
           </nav>
         </div>
@@ -178,17 +164,14 @@ export default function NavigationBar() {
       <div className="flex items-center justify-between px-6 py-6">
           <Link href="/">
             <h1
-            className="
+            className={`
+             ${bebas.className}
               text-3xl
               font-black
               uppercase
               text-black
               leading-none
-            "
-            style={{
-              fontFamily:
-                'Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif',
-            }}
+           ` }
           >
             Anzenel De Leon
           </h1>
@@ -232,7 +215,7 @@ export default function NavigationBar() {
               transition
             "
           >
-            ×
+            x
           </button>
          <div
   className="
@@ -247,61 +230,32 @@ export default function NavigationBar() {
   <Link
     href="/portfolio?category=character-design"
     onClick={() => setIsMenuOpen(false)}
-    className="text-2xl text-black uppercase tracking-wide"
-    style={{
-      fontFamily:
-        'Impact, Haettenschweiler, Arial Narrow Bold, sans-serif',
-    }}
+    className="text-2xl text-black tracking-wide"
   >
-    Portfolio
+    portfolio
   </Link>
 
   <Link
     href="/portfolio?category=character-design"
     onClick={() => setIsMenuOpen(false)}
-    className="text-2xl text-black uppercase tracking-wide"
-    style={{
-      fontFamily:
-        'Impact, Haettenschweiler, Arial Narrow Bold, sans-serif',
-    }}
+    className="text-2xl text-black lowercase tracking-wide"
   >
-    Character Design
+    character design
   </Link>
 
   <Link
     href="/portfolio?category=fine-arts"
     onClick={() => setIsMenuOpen(false)}
-    className="text-2xl text-black uppercase tracking-wide"
-    style={{
-      fontFamily:
-        'Impact, Haettenschweiler, Arial Narrow Bold, sans-serif',
-    }}
+    className="text-2xl text-black lowercase  tracking-wide"
   >
-    Fine Arts
+    fine arts
   </Link>
-
-  <Link
-    href="/portfolio?category=illustrations"
-    onClick={() => setIsMenuOpen(false)}
-    className="text-2xl text-black uppercase tracking-wide"
-    style={{
-      fontFamily:
-        'Impact, Haettenschweiler, Arial Narrow Bold, sans-serif',
-    }}
-  >
-    Illustrations
-  </Link>
-
   <Link
     href="/about"
     onClick={() => setIsMenuOpen(false)}
-    className="text-2xl text-black uppercase tracking-wide"
-    style={{
-      fontFamily:
-        'Impact, Haettenschweiler, Arial Narrow Bold, sans-serif',
-    }}
+    className="text-2xl text-black lowercase tracking-wide"
   >
-    About
+    about
   </Link>
 </div>
           </motion.div>
