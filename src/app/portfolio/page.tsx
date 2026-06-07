@@ -24,8 +24,6 @@ type DriveFolder = {
   subfolders?: DriveSubfolder[];
 };
 
-
-
 function ArtworkImage({
   image,
   onClick,
@@ -51,7 +49,7 @@ function ArtworkImage({
       onClick={onClick}
     >
       <div className="relative overflow-hidden">
-        {!loaded && (
+        {!loaded && !image.mimeType.includes('video') && (
           <div
             className="
               absolute
@@ -62,33 +60,45 @@ function ArtworkImage({
           />
         )}
 
-        <Image
-          src={`https://drive.google.com/thumbnail?id=${image.id}&sz=w2000`}
-          alt={image.name}
-          width={1200}
-          height={1200}
-          unoptimized
-          onLoad={() => setLoaded(true)}
-          className={`
-            w-full
-            h-auto
-            rounded-sm
-            transition-all
-            duration-700
-            ease-out
-            hover:scale-[1.01]
+       {image.mimeType.includes('video') ? (
+            <iframe
+              src={`https://drive.google.com/file/d/${image.id}/preview`}
+              className="
+                w-full
+                aspect-video
+                rounded-sm
+                border-0
+              "
+              allow="autoplay"
+            />
+          ) : (
+          <Image
+            src={`https://drive.google.com/thumbnail?id=${image.id}&sz=w2000`}
+            alt={image.name}
+            width={1200}
+            height={1200}
+            unoptimized
+            onLoad={() => setLoaded(true)}
+            className={`
+              w-full
+              h-auto
+              rounded-sm
+              transition-all
+              duration-700
+              ease-out
+              hover:scale-[1.01]
 
-            ${
-              loaded
-                ? 'opacity-100 scale-100'
-                : 'opacity-0 scale-[1.03]'
-            }
-          `}
-        />
+              ${
+                loaded
+                  ? 'opacity-100 scale-100'
+                  : 'opacity-0 scale-[1.03]'
+              }
+            `}
+          />
+        )}
       </div>
     </motion.div>
   );
-
 }
 
 function FeaturedArtworkImage({
@@ -230,20 +240,24 @@ useEffect(() => {
       activeCategory.toLowerCase()
   );
 
-  const mainImages =
-    currentFolder?.files.filter((file) =>
-      file.mimeType.includes('image')
-    ) || [];
+const mainImages =
+  currentFolder?.files.filter(
+    (file) =>
+      file.mimeType.includes('image') ||
+      file.mimeType.includes('video')
+  ) || [];
 
   const sirenImages =
     currentFolder?.subfolders
-      ?.find((folder) => folder.name.toLowerCase() === 'siren call 2024')
-      ?.files.filter((file) => file.mimeType.includes('image')) || [];
+      ?.find((folder) => folder.name.toLowerCase() === 'siren call 2023')
+      ?.files.filter((file) => file.mimeType.includes('image') ||
+file.mimeType.includes('video')) || [];
 
   const bugImages =
     currentFolder?.subfolders
       ?.find((folder) => folder.name.toLowerCase() === 'bug snacks 2026')
-      ?.files.filter((file) => file.mimeType.includes('image')) || [];
+      ?.files.filter((file) => file.mimeType.includes('image') ||
+file.mimeType.includes('video')) || [];
 
  let images: DriveFile[] = [];
 
@@ -275,7 +289,7 @@ if (currentFolder) {
         ?.find(
           (folder: any) =>
             folder.name.toLowerCase() ===
-            'siren call 2024'
+            'siren call 2023'
         )
         ?.files.filter((file: DriveFile) =>
           file.mimeType.includes('image')
@@ -298,10 +312,18 @@ if (currentFolder) {
       ...sirenCall,
     ];
   } else {
-    images =
-      currentFolder.files.filter((file: DriveFile) =>
-        file.mimeType.includes('image')
-      ) || [];
+images =
+  currentFolder.files
+    .filter(
+      (file: DriveFile) =>
+        file.mimeType.includes('image') ||
+        file.mimeType.includes('video')
+    )
+    .sort((a, b) => {
+      const numA = parseInt(a.name.match(/^\d+/)?.[0] || "9999");
+      const numB = parseInt(b.name.match(/^\d+/)?.[0] || "9999");
+      return numA - numB;
+    }) || [];
   }
 }
 
@@ -367,8 +389,8 @@ const handleSwipe = () => {
    {activeCategory === 'character design' &&
 characterFilter === 'all' ? (
   <>
-    <h2 className="text-3xl font-black uppercase mb-8">
-      Bug Snacks 2026
+    <h2 className="text-3xl font-black mb-8 text-center">
+      Bug Snacks
     </h2>
 
     <div className="flex flex-col gap-16">
@@ -382,27 +404,8 @@ characterFilter === 'all' ? (
         />
       ))}
     </div>
-
-    <h2 className="text-3xl font-black uppercase mt-24 mb-8">
-      Character Design
-    </h2>
-
-    <div className="columns-1 md:columns-2 xl:columns-3 gap-6">
-      {mainImages.map((image, index) => (
-        <ArtworkImage
-          key={image.id}
-          image={image}
-          onClick={() =>
-            setSelectedIndex(
-              bugImages.length + index
-            )
-          }
-        />
-      ))}
-    </div>
-
-    <h2 className="text-3xl font-black uppercase mt-24 mb-8">
-      Siren Call 2024
+    <h2 className="text-3xl font-black  mt-24 mb-8 text-center">
+      Siren Call (2023)
     </h2>
 
     <div className="columns-1 md:columns-2 xl:columns-3 gap-6">
@@ -420,6 +423,24 @@ characterFilter === 'all' ? (
         />
       ))}
     </div>
+
+    <h2 className="text-3xl font-black mt-24 mb-8 text-center">
+      miscellaneous
+    </h2>
+
+    <div className="columns-1 md:columns-2 xl:columns-3 gap-6">
+      {mainImages.map((image, index) => (
+        <ArtworkImage
+          key={image.id}
+          image={image}
+          onClick={() =>
+            setSelectedIndex(
+              bugImages.length + index
+            )
+          }
+        />
+      ))}
+    </div>
   </>
 ) : (
   <AnimatePresence mode="wait">
@@ -429,15 +450,19 @@ characterFilter === 'all' ? (
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.35 }}
-      className="columns-1 md:columns-2 xl:columns-3 gap-6"
+      className={
+      activeCategory === 'fine arts'
+        ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6'
+        : 'columns-1 md:columns-2 xl:columns-3 gap-6'
+    }
     >
-      {images.map((image, index) => (
-        <ArtworkImage
-          key={image.id}
-          image={image}
-          onClick={() => setSelectedIndex(index)}
-        />
-      ))}
+ {images.map((image, index) => (
+  <ArtworkImage
+    key={image.id}
+    image={image}
+    onClick={() => setSelectedIndex(index)}
+  />
+))}
     </motion.div>
   </AnimatePresence>
 )}
@@ -697,7 +722,7 @@ onTouchMove={(e) => {
       </AnimatePresence>
     </main>
   );}
-  
+
 export default function PortfolioPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
