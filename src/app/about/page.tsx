@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { FaInstagram, FaXTwitter } from 'react-icons/fa6';
 import { HiOutlineMail } from 'react-icons/hi';
 import { Bebas_Neue } from 'next/font/google';
-
+import aneedlSticker from '../../public/an33dl_Sticker.png';
 
 const bebas = Bebas_Neue({
   weight: '400',
@@ -55,9 +55,9 @@ export default function AboutPage() {
   };
 
   return (
-    <main className="bg-[#f3f3f3] min-h-screen">
-      <section className="max-w-7xl mx-auto px-6 pt-10 pb-24">     
-<div className="grid lg:grid-cols-[1fr_420px] gap-16 items-center">
+  <main className="bg-[#f3f3f3] min-h-screen">
+  <section className="max-w-4xl mx-auto px-6 pt-10 pb-24">     
+  <div className="grid lg:grid-cols-[1fr_420px] gap-16 items-center">
   <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
@@ -139,12 +139,11 @@ export default function AboutPage() {
     transition={{ delay: 0.1 }}
   >
     <Image
-      src="/about-doodle.png"
-      alt="aneedle"
-      width={700}
-      height={700}
-      className="w-full max-w-[450px] mx-auto"
-    />
+    src="/an33dl_Sticker.png"
+    alt="AN33DL Sticker"
+    width={500}
+    height={250}
+  />
   </motion.div>
 </div>
 <div className="pt-8">

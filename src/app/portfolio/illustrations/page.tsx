@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { DriveFolder, DriveFile } from '../../../types';
-import PortfolioGallery from '../../../components/PortfolioGallery';
+import IllustrationsGallery from '../../../components/IllustrationsGallery';
 import Lightbox from '../../../components/Lightbox';
 
-export default function CharacterDesignPage() {
+export default function IllustrationsPage() {
   const [folders, setFolders] = useState<DriveFolder[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
@@ -16,16 +16,12 @@ export default function CharacterDesignPage() {
   }, []);
 
   const currentFolder = folders.find(
-    (folder) => folder.name.trim().toLowerCase() === 'character design'
+    (folder) => folder.name.trim().toLowerCase() === 'illustrations'
   );
-
-  const mainImages = currentFolder?.files.filter((file) => file.mimeType.includes('image')) || [];
-  const sirenImages = currentFolder?.subfolders
-    ?.find((folder) => folder.name.toLowerCase() === 'siren call 2023')
-    ?.files.filter((file) => file.mimeType.includes('image')) || [];
-  const bugImages = currentFolder?.subfolders
-    ?.find((folder) => folder.name.toLowerCase() === 'bug snacks 2026')
-    ?.files.filter((file) => file.mimeType.includes('image')) || [];
+  
+  const fineArtsFolder = folders.find(
+    (folder) => folder.name.trim().toLowerCase() === 'fine arts'
+  );
 
   const sortByNumber = (files: DriveFile[]) =>
     [...files].sort((a, b) => {
@@ -34,19 +30,25 @@ export default function CharacterDesignPage() {
       return numA - numB;
     });
 
+  const illustrationImages = currentFolder?.files.filter(
+    (file) => file.mimeType.includes('image') || file.mimeType.includes('video')
+  ) || [];
+
+  const fineArtsImages = fineArtsFolder?.files.filter(
+    (file) => file.mimeType.includes('image') || file.mimeType.includes('video')
+  ) || [];
+
   const allImages = [
-    ...sortByNumber(bugImages),
-    ...sortByNumber(sirenImages),
-    ...sortByNumber(mainImages),
+    ...sortByNumber(illustrationImages),
+    ...sortByNumber(fineArtsImages),
   ];
 
   return (
     <main className="bg-[#f3f3f3] min-h-screen pt-6">
       <section className="max-w-[950px] mx-auto px-6 pb-20">
-        <PortfolioGallery
-          bugImages={sortByNumber(bugImages)}
-          sirenImages={sortByNumber(sirenImages)}
-          mainImages={sortByNumber(mainImages)}
+        <IllustrationsGallery
+          images={allImages}
+          activeCategory="illustrations"
           setSelectedIndex={setSelectedIndex}
         />
       </section>

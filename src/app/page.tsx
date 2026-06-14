@@ -4,8 +4,8 @@ import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-import Logo from '../../public/logo.png';
 import VgenLogo from '../../public/logo-icon-green-outline.svg';
+import TagLogo from '../../public/an33dl_Tag.png';
 
 import { FaInstagram } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
@@ -99,126 +99,121 @@ export default function Home() {
             )}
           </button>
 
-          {/* CONTENT */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              delay: 0.3,
-              duration: 1,
-            }}
-            className="
-              absolute
-              bottom-8
-              md:bottom-12
-              left-6
-              md:left-10
-              z-20
-            "
-          >
-            {/* LOGO */}
-            <Image
-              src={Logo}
-              alt="AN33DL"
-              priority
-              width={600}
-              height={300}
-              className="
-                w-[180px]
-                md:w-[280px]
-                h-auto
-                mb-4
-                drop-shadow-lg
-              "
-            />
+       {/* CONTENT */}
+<motion.div
+  initial={{ opacity: 0, y: 40 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{
+    delay: 0.3,
+    duration: 1,
+  }}
+  className="
+    absolute
+    bottom-8
+    md:top-100
+    left-6
+    md:left-10
+    z-20
+  "
+>
+  {/* SOCIALS */}
+ <div
+  className="
+    flex
+    items-center
+    justify-center
+    gap-8
+    mb-4
+    md:justify-start
+    md:gap-8
+    md:mb-0
+    md:ml-20
+  "
+>
+    <a
+      href="https://x.com/an33dl"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="
+        text-white
+        text-2xl md:text-4xl
+        hover:scale-110
+        transition
+      "
+    >
+      <FaXTwitter />
+    </a>
 
-            {/* TITLE */}
-            <h2
-              className="
-                text-white
-                text-xl
-                md:text-4xl
-                font-bold
-                uppercase
-                leading-tight
-                tracking-wide
-                drop-shadow-lg
-              "
-            >
-          
-            </h2>
+    <a
+      href="https://www.instagram.com/an33dl/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="
+        text-white
+        text-2xl md:text-4xl
+        hover:scale-110
+        transition
+      "
+    >
+      <FaInstagram />
+    </a>
 
-            {/* SOCIALS */}
-            <div className="flex items-center gap-5 mt-6">
-              <a
-                href="https://x.com/an33dl"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="
-                  text-white
-                  text-2xl
-                  hover:scale-110
-                  transition
-                "
-              >
-                <FaXTwitter />
-              </a>
+    <a
+      href="https://vgen.co/an33dl"
+      target="_blank"
+      rel="noopener noreferrer"
+      title="VGen"
+      className="
+        hover:scale-110
+        transition
+        flex
+        items-center
+      "
+    >
+      <Image
+        src={VgenLogo}
+        alt="VGen"
+        width={28}
+        height={28}
+        className="
+          invert
+          brightness-0
+          md:w-8
+          md:h-8
+          w-6
+          h-6
+        "
+      />
+    </a>
 
-              <a
-                href="https://www.instagram.com/an33dl/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="
-                  text-white
-                  text-2xl
-                  hover:scale-110
-                  transition
-                "
-              >
-                <FaInstagram />
-              </a>
+    <a
+      href="mailto:anziidlart@gmail.com"
+      className="
+        text-white
+        text-2xl md:text-4xl
+        hover:scale-110
+        transition
+      "
+    >
+      <HiOutlineMail />
+    </a>
+  </div>
 
-              <a
-                href="https://vgen.co/an33dl"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="VGen"
-                className="
-                  hover:scale-110
-                  transition
-                  flex
-                  items-center
-                "
-              >
-                <Image
-                  src={VgenLogo}
-                  alt="VGen"
-                  width={28}
-                  height={28}
-                  className="
-                    invert
-                    brightness-0
-                    md:w-7
-                    md:h-7
-                    w-6
-                    h-6
-                  "
-                />
-              </a>
-
-              <a
-                href="mailto:anziidlart@gmail.com"
-                className="
-                  text-white
-                  text-2xl
-                  hover:scale-110
-                  transition
-                "
-              >
-                <HiOutlineMail />
-              </a>
-            </div>
-          </motion.div>
+  {/*LOGO */}
+  <Image
+    src={TagLogo}
+    alt="AN33DL"
+    priority
+    width={800}
+    height={400}
+    className="
+      w-[220px]
+      md:w-[420px]
+      h-auto
+      drop-shadow-lg
+    "
+  />
+</motion.div>
         </section>
       </main>
     </div>
